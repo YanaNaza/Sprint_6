@@ -1,20 +1,8 @@
-from pages.base_page import BasePage
-from locators.home_page_locators import HomePageLocators
-from locators.order_page_locators import OrderPageLocators
 import allure
-
+from locators.order_page_locators import OrderPageLocators
+from pages.base_page import BasePage
 
 class OrderPage(BasePage):
-
-    @allure.step('Клик на кнопку "Заказать" в шапке главной')
-    def click_header_order_btn(self):
-        self.click_to_element(HomePageLocators.ORDER_BUTTON_HEADER)
-
-
-    @allure.step('Клик на кнопку "Заказать" в середине главной страницы')
-    def click_main_order_btn(self):
-        self.click_to_element(HomePageLocators.ORDER_BUTTON_PAGE)
-
 
     @allure.step('Заполнение поля "Имя"')
     def set_name(self, name):
@@ -33,8 +21,7 @@ class OrderPage(BasePage):
 
     @allure.step('Выбор станции метро')
     def set_metro(self, station):
-        self.find_element(OrderPageLocators.METRO_FIELD)
-        self.click_to_element(OrderPageLocators.METRO_FIELD)
+        self.find_element(OrderPageLocators.METRO_FIELD).click()
         self.click_to_element(station)
 
 
@@ -51,14 +38,12 @@ class OrderPage(BasePage):
     @allure.step('Выбор даты доставки')
     def set_date(self, date):
         self.click_to_element(OrderPageLocators.DATE_FIELD)
-        self.find_element(date)
         self.click_to_element(date)
 
 
     @allure.step('Выбор срока аренды')
     def set_term(self, term):
         self.click_to_element(OrderPageLocators.RENT_TIME_FIELD)
-        self.find_element(term)
         self.click_to_element(term)
 
 
@@ -70,23 +55,3 @@ class OrderPage(BasePage):
     @allure.step('Заполнение поля "Комментарии"')
     def set_comments(self, comments):
         self.set_text(OrderPageLocators.COMMENTS, comments)
-
-
-    @allure.step('Появление модального окна "Заказ оформлен"')
-    def check_success_order(self):
-        return self.find_element(OrderPageLocators.ORDER_SUCCESS_WINDOW).text
-
-
-    def create_order(self, name, last_name, address, station, phone, date, term, color, comments):
-        self.set_name(name)
-        self.set_last_name(last_name)
-        self.set_address(address)
-        self.set_metro(station)
-        self.set_phone(phone)
-        self.click_next_btn()
-        self.set_date(date)
-        self.set_term(term)
-        self.set_color(color)
-        self.set_comments(comments)
-        self.click_to_element(OrderPageLocators.ORDER_BUTTON)
-        self.click_to_element(OrderPageLocators.YES_BUTTON)
